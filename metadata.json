@@ -1,0 +1,6 @@
+{
+  "name": "iFixPro",
+  "description": "Ứng dụng quản lý sửa chữa điện thoại, laptop và thiết bị điện tử với 4 vai trò (Khách hàng, Lễ tân, Kỹ thuật viên, Quản lý).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

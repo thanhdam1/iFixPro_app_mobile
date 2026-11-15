@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iFixPro</string>
+    <string name="brand_tagline">Trung tâm quản lý sửa chữa chuyên nghiệp</string>
+
+    <!-- Login & Session -->
+    <string name="login_welcome_title">Chào mừng trở lại</string>
+    <string name="login_welcome_subtitle">Đăng nhập để theo dõi thiết bị, tiếp nhận phiếu và vận hành xưởng sửa chữa.</string>
+    <string name="login_username_hint">Tên đăng nhập</string>
+    <string name="login_password_hint">Mật khẩu</string>
+    <string name="username_required">Vui lòng nhập tên đăng nhập</string>
+    <string name="password_required">Vui lòng nhập mật khẩu</string>
+    <string name="login_loading">Đang xác thực…</string>
+    <string name="login_action">Đăng nhập</string>
+    <string name="login_debug_section">Truy cập nhanh (chỉ hiển thị trong bản debug)</string>
+    <string name="login_extension_note">Mở rộng: Đăng ký, Quên mật khẩu và xác thực OTP sẽ kết nối khi có backend đồng bộ tài khoản.</string>
+    <string name="session_expired">Phiên đăng nhập không còn hợp lệ. Vui lòng đăng nhập lại.</string>
+
+    <!-- Roles & Account -->
+    <string name="role_customer">Khách hàng</string>
+    <string name="role_receptionist">Lễ tân</string>
+    <string name="role_technician">Kỹ thuật viên</string>
+    <string name="role_manager">Quản lý</string>
+    <string name="role_unknown">Chưa xác định</string>
+    <string name="account_info_title">Thông tin tài khoản</string>
+    <string name="account_username_label">Tên đăng nhập</string>
+    <string name="account_phone_label">Số điện thoại</string>
+    <string name="account_role_label">Vai trò</string>
+    <string name="account_profile_readonly">Hồ sơ tài khoản được quản lý bởi quản trị cửa hàng.</string>
+    <string name="action_logout">Đăng xuất</string>
+    <string name="confirm_logout_title">Đăng xuất tài khoản?</string>
+    <string name="confirm_logout_body">Bạn sẽ quay về màn hình đăng nhập iFixPro.</string>
+
+    <!-- Common Actions & States -->
+    <string name="action_cancel">Hủy</string>
+    <string name="action_close">Đóng</string>
+    <string name="action_clear_filters">Xóa bộ lọc</string>
+    <string name="action_retry">Thử lại</string>
+    <string name="go_back">Quay lại</string>
+    <string name="confirm_action">Xác nhận</string>
+    <string name="loading_data">Đang tải dữ liệu…</string>
+    <string name="saving_data">Đang lưu…</string>
+
+    <!-- Customer Home -->
+    <string name="greeting_hello">Xin chào, %1$s</string>
+    <string name="customer_subtitle">Theo dõi trạng thái sửa chữa và báo giá thiết bị của bạn</string>
+    <string name="kpi_in_progress">Đang xử lý</string>
+    <string name="kpi_waiting_quote">Chờ duyệt giá</string>
+    <string name="kpi_ready_pickup">Chờ nhận máy</string>
+    <string name="my_repairs">Danh sách phiếu sửa chữa</string>
+    <string name="search_tickets">Tìm mã phiếu, tên thiết bị, IMEI</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_active">Đang xử lý</string>
+    <string name="filter_approval">Chờ duyệt giá</string>
+    <string name="filter_ready">Chờ nhận máy</string>
+    <string name="filter_closed">Hoàn tất / Đã đóng</string>
+    <string name="ticket_result_count">Hiển thị %1$d / %2$d phiếu</string>
+    <string name="no_tickets_title">Bạn chưa có phiếu sửa chữa</string>
+    <string name="no_tickets_description">Khi cửa hàng tiếp nhận thiết bị của bạn, phiếu theo dõi sẽ hiển thị tại đây.</string>
+    <string name="no_results_title">Không tìm thấy phiếu phù hợp</string>
+    <string name="no_results_description">Thử từ khóa khác hoặc xóa bộ lọc để xem toàn bộ phiếu.</string>
+    <string name="unknown_device">Chưa có thông tin thiết bị</string>
+    <string name="unknown_customer">Chưa có thông tin khách hàng</string>
+    <string name="quote_pending_label">Chờ báo giá</string>
+    <string name="cta_view_quote">Xem báo giá</string>
+    <string name="cta_view_progress">Xem tiến độ</string>
+
+    <!-- Ticket Timeline & Quotation -->
+    <string name="ticket_detail_title">Chi tiết &amp; Tiến độ</string>
+    <string name="loading_ticket">Đang tải phiếu sửa chữa…</string>
+    <string name="ticket_not_found">Không tìm thấy phiếu sửa chữa. Vui lòng quay lại danh sách.</string>
+    <string name="ticket_updated">Cập nhật gần nhất (cục bộ): %1$s</string>
+    <string name="ticket_created_at">Tiếp nhận: %1$s</string>
+    <string name="quotation_total">Tổng báo giá: %1$s</string>
+    <string name="stage_done">Hoàn tất · %1$s</string>
+    <string name="stage_current">Hiện tại · %1$s</string>
+    <string name="stage_pending">Chờ thực hiện · %1$s</string>
+    <string name="quote_approved_stage">Đã đồng ý báo giá</string>
+    <string name="repair_rejected">Bạn đã từ chối báo giá. Vui lòng liên hệ quầy lễ tân để nhận lại thiết bị.</string>
+    <string name="repair_cancelled">Phiếu đã được hủy. Liên hệ cửa hàng để biết thông tin bàn giao.</string>
+    <string name="repair_approved">Bạn đã đồng ý báo giá. Thiết bị đang chờ kỹ thuật viên bắt đầu sửa.</string>
+    <string name="repair_delivered">Thiết bị đã được bàn giao và lập hóa đơn.</string>
+    <string name="repair_unknown">Trạng thái phiếu chưa xác định.</string>
+    <string name="repair_progress_hint">Tiến độ phản ánh trạng thái hiện tại trên thiết bị này.</string>
+    <string name="confirm_approve_title">Xác nhận đồng ý sửa chữa?</string>
+    <string name="confirm_approve_body">Bạn đồng ý thực hiện sửa chữa với tổng báo giá %1$s? Linh kiện sẽ được giữ kho ngay sau khi xác nhận.</string>
+    <string name="confirm_reject_title">Từ chối báo giá?</string>
+    <string name="confirm_reject_body">Bạn muốn từ chối báo giá %1$s? Cửa hàng sẽ giữ nguyên máy để bàn giao lại cho bạn.</string>
+    <string name="quote_changed">Phiếu vừa được cập nhật. Vui lòng xem lại báo giá mới trước khi xác nhận.</string>
+    <string-array name="repair_stages">
+        <item>Tiếp nhận thiết bị</item>
+        <item>Kiểm tra &amp; chẩn đoán</item>
+        <item>Xác nhận báo giá</item>
+        <item>Tiến hành sửa chữa</item>
+        <item>Kiểm tra hoàn tất</item>
+        <item>Bàn giao thiết bị</item>
+    </string-array>
+
+    <!-- Receptionist -->
+    <string name="reception_dashboard_title">Điều phối tiếp nhận</string>
+    <string name="kpi_new_received">Mới tiếp nhận</string>
+    <string name="kpi_ready_delivery">Chờ bàn giao</string>
+    <string name="kpi_need_attention">Cần theo dõi</string>
+    <string name="create_ticket_action">Tạo phiếu mới</string>
+    <string name="staff_search_hint">Tìm mã phiếu, thiết bị, IMEI hoặc khách</string>
+    <string name="staff_only_active">Chỉ phiếu đang xử lý</string>
+    <string name="staff_empty">Chưa có phiếu sửa chữa nào trong hệ thống.</string>
+    <string name="staff_no_results">Không tìm thấy phiếu phù hợp. Thử xóa từ khóa hoặc đổi bộ lọc.</string>
+
+    <!-- Technician -->
+    <string name="tech_dashboard_title">Xưởng kỹ thuật</string>
+    <string name="kpi_waiting_diagnosis">Chờ chẩn đoán</string>
+    <string name="kpi_approved_queue">Đã duyệt · Chờ sửa</string>
+    <string name="kpi_repairing">Đang sửa</string>
+    <string name="kpi_completed">Hoàn tất</string>
+    <string name="scan_qr_action">Quét mã QR phiếu</string>
+    <string name="filter_diagnose">Chờ chẩn đoán</string>
+    <string name="filter_approved">Chờ sửa</string>
+    <string name="filter_repairing">Đang sửa</string>
+    <string name="filter_completed">Hoàn tất</string>
+
+    <!-- Manager -->
+    <string name="manager_dashboard_title">Tổng quan vận hành</string>
+    <string name="invoice_period_summary">%1$d ngày gần đây · %2$d hóa đơn · %3$s</string>
+    <string name="invoice_value">Giá trị hóa đơn (VNĐ)</string>
+    <string name="no_invoice_period">Chưa có hóa đơn nào trong khoảng thời gian đã chọn</string>
+    <string name="operations_summary">%1$d phiếu · %2$d đang xử lý · %3$d chờ duyệt · %4$d chờ giao</string>
+    <string name="ticket_total">%1$d phiếu</string>
+    <string name="status_unknown">Chưa xác định</string>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand & Ink Hierarchy (Dark) -->
+    <color name="ink_navy">#070C16</color>
+    <color name="ink_navy_elevated">#101A2C</color>
+    <color name="teal_accent">#2DD4BF</color>
+
+    <!-- Material 3 Semantic Tokens (Dark) -->
+    <color name="primary">#60A5FA</color>
+    <color name="on_primary">#0B1220</color>
+    <color name="primary_container">#1E3A5F</color>
+    <color name="on_primary_container">#DBEAFE</color>
+
+    <color name="secondary">#2DD4BF</color>
+    <color name="on_secondary">#042F2E</color>
+    <color name="secondary_container">#134E4A</color>
+    <color name="on_secondary_container">#CCFBF1</color>
+
+    <color name="background">#0B1220</color>
+    <color name="surface">#131D2F</color>
+    <color name="surface_variant">#1C2940</color>
+    <color name="on_surface">#F1F5F9</color>
+    <color name="on_surface_variant">#94A3B8</color>
+    <color name="outline">#27354D</color>
+    <color name="outline_strong">#3B4D6B</color>
+
+    <!-- Feedback Semantic Tokens (Dark) -->
+    <color name="success">#4ADE80</color>
+    <color name="on_success">#052E16</color>
+    <color name="success_container">#14532D</color>
+    <color name="on_success_container">#DCFCE7</color>
+
+    <color name="warning">#FBBF24</color>
+    <color name="on_warning">#451A03</color>
+    <color name="warning_container">#78350F</color>
+    <color name="on_warning_container">#FEF3C7</color>
+
+    <color name="error">#F87171</color>
+    <color name="on_error">#450A0A</color>
+    <color name="error_container">#7F1D1D</color>
+    <color name="on_error_container">#FEE2E2</color>
+
+    <!-- Ticket Status Tokens (Dark Mode >= 4.5:1) -->
+    <color name="status_received">#93C5FD</color>
+    <color name="status_received_bg">#1E3A5F</color>
+    <color name="status_diagnosing">#C4B5FD</color>
+    <color name="status_diagnosing_bg">#3B1F6E</color>
+    <color name="status_waiting">#FCD34D</color>
+    <color name="status_waiting_bg">#5C2D0C</color>
+    <color name="status_approved">#5EEAD4</color>
+    <color name="status_approved_bg">#134E4A</color>
+    <color name="status_repairing">#7DD3FC</color>
+    <color name="status_repairing_bg">#0C4A6E</color>
+    <color name="status_completed">#86EFAC</color>
+    <color name="status_completed_bg">#14532D</color>
+    <color name="status_delivered">#CBD5E1</color>
+    <color name="status_delivered_bg">#283548</color>
+    <color name="status_rejected">#FCA5A5</color>
+    <color name="status_rejected_bg">#691919</color>
+    <color name="status_cancelled">#94A3B8</color>
+    <color name="status_cancelled_bg">#243044</color>
+</resources>
