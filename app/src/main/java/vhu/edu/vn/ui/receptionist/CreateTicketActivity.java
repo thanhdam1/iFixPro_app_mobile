@@ -1,6 +1,10 @@
 package vhu.edu.vn.ui.receptionist;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.util.Patterns;
+import androidx.activity.OnBackPressedCallback;
+import androidx.lifecycle.ViewModelProvider;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,7 +28,17 @@ public class CreateTicketActivity extends AppCompatActivity {
     private ActivityCreateTicketBinding binding;
     private RepairTicketRepository repository;
     private SessionManager sessionManager;
-    private boolean isSubmitting;
+    private IntakeSubmission submission;
+    private int step;
+    private static final int LAST_STEP = 3;
+    private static final int[] TITLES = {
+            R.string.intake_device_title, R.string.intake_issue_title,
+            R.string.intake_visit_title, R.string.intake_contact_title
+    };
+    private static final int[] HINTS = {
+            R.string.intake_device_hint, R.string.intake_issue_hint,
+            R.string.intake_visit_hint, R.string.intake_contact_hint
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +53,7 @@ public class CreateTicketActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.toolbar.setNavigationOnClickListener(v -> finish());
+        binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         sessionManager = new SessionManager(this);
         if (!sessionManager.isLoggedIn() || !sessionManager.isStaff()) {
@@ -49,7 +63,77 @@ public class CreateTicketActivity extends AppCompatActivity {
 
         repository = new RepairTicketRepository(this);
         setupClearErrorWatchers();
-        binding.btnSubmitTicket.setOnClickListener(v -> submitTicket());
+        submission = new ViewModelProvider(this).get(IntakeSubmission.class);
+        step = savedInstanceState == null ? 0 : savedInstanceState.getInt("intakeStep", 0);
+        showStep();
+        binding.btnSubmitTicket.setOnClickListener(v -> advance());
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override public void handleOnBackPressed() {
+                if (submission.pending) return;
+                if (step == 0) finish();
+                else {
+                    step--;
+                    showStep();
+                }
+            }
+        });
+        submission.createdCode.observe(this, code -> showCreatedTicketDialog(submission.ticketId, code));
+        submission.error.observe(this, message -> {
+            if (message == null) return;
+            showStep();
+            binding.tvCreateError.setText(message);
+            binding.cardCreateError.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putInt("intakeStep", step);
+    }
+
+    private void showStep() {
+        View[] pages = { binding.pageDevice, binding.pageIssue, binding.pageVisit, binding.pageContact };
+        ImageView[] icons = { binding.iconDevice, binding.iconIssue, binding.iconVisit, binding.iconContact };
+        for (int i = 0; i < pages.length; i++) {
+            pages[i].setVisibility(i == step ? View.VISIBLE : View.GONE);
+            int fill = getColor(i == step ? R.color.intake_violet : R.color.intake_lilac);
+            int ink = getColor(i == step ? android.R.color.white : R.color.intake_violet);
+            icons[i].setBackgroundTintList(ColorStateList.valueOf(fill));
+            icons[i].setImageTintList(ColorStateList.valueOf(ink));
+        }
+        binding.stepTitle.setText(TITLES[step]);
+        binding.stepHint.setText(HINTS[step]);
+        binding.cardCreateError.setVisibility(View.GONE);
+        binding.btnSubmitTicket.setEnabled(!submission.pending && submission.createdCode.getValue() == null);
+        binding.btnSubmitTicket.setText(submission.pending ? R.string.saving_data
+                : step == LAST_STEP ? R.string.intake_submit : R.string.intake_next);
+        binding.intakeScroll.post(() -> binding.intakeScroll.scrollTo(0, 0));
+    }
+
+    private void advance() {
+        if (submission.pending || submission.createdCode.getValue() != null) return;
+        if (step == 0 && textOf(binding.edtBrandModel).isEmpty()) {
+            binding.tilBrandModel.setError("Vui lòng nhập hãng và tên thiết bị");
+            binding.edtBrandModel.requestFocus();
+            return;
+        }
+        if (step == 0 && textOf(binding.edtImeiSerial).isEmpty()) {
+            binding.tilImeiSerial.setError("Vui lòng nhập IMEI hoặc số Serial");
+            binding.edtImeiSerial.requestFocus();
+            return;
+        }
+        if (step == 1 && textOf(binding.edtCustomerNote).isEmpty()) {
+            binding.tilCustomerNote.setError("Vui lòng mô tả lỗi khách hàng phản ánh");
+            binding.edtCustomerNote.requestFocus();
+            return;
+        }
+        if (step < LAST_STEP) {
+            step++;
+            showStep();
+            return;
+        }
+        submitTicket();
     }
 
     private void setupClearErrorWatchers() {
@@ -57,6 +141,7 @@ public class CreateTicketActivity extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.tilCustomerPhone.setError(null);
+                binding.tilEmail.setError(null);
                 binding.tilBrandModel.setError(null);
                 binding.tilImeiSerial.setError(null);
                 binding.tilCustomerNote.setError(null);
@@ -65,14 +150,13 @@ public class CreateTicketActivity extends AppCompatActivity {
             @Override public void afterTextChanged(Editable s) { }
         };
         binding.edtCustomerPhone.addTextChangedListener(clearWatcher);
+        binding.edtEmail.addTextChangedListener(clearWatcher);
         binding.edtBrandModel.addTextChangedListener(clearWatcher);
         binding.edtImeiSerial.addTextChangedListener(clearWatcher);
         binding.edtCustomerNote.addTextChangedListener(clearWatcher);
     }
 
     private void submitTicket() {
-        if (isSubmitting) return;
-
         String phone = textOf(binding.edtCustomerPhone);
         String name = textOf(binding.edtCustomerName);
         String brandModel = textOf(binding.edtBrandModel);
@@ -81,27 +165,24 @@ public class CreateTicketActivity extends AppCompatActivity {
         String initialCondition = textOf(binding.edtInitialCondition);
         String customerNote = textOf(binding.edtCustomerNote);
 
-        boolean valid = true;
-        if (phone.isEmpty() || phone.length() < 8) {
+        if (phone.length() < 8) {
             binding.tilCustomerPhone.setError("Vui lòng nhập số điện thoại hợp lệ");
-            valid = false;
+            binding.edtCustomerPhone.requestFocus();
+            return;
         }
-        if (brandModel.isEmpty()) {
-            binding.tilBrandModel.setError("Vui lòng nhập hãng và tên thiết bị");
-            valid = false;
+        String email = textOf(binding.edtEmail);
+        if (!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.tilEmail.setError(getString(R.string.intake_invalid_email));
+            binding.edtEmail.requestFocus();
+            return;
         }
-        if (imei.isEmpty()) {
-            binding.tilImeiSerial.setError("Vui lòng nhập IMEI hoặc số Serial");
-            valid = false;
-        }
-        if (customerNote.isEmpty()) {
-            binding.tilCustomerNote.setError("Vui lòng mô tả lỗi khách hàng phản ánh");
-            valid = false;
-        }
-        if (!valid) return;
-
+        String visit = textOf(binding.edtVisit);
+        if (!visit.isEmpty()) customerNote += "\n" + getString(R.string.intake_note_visit) + ": " + visit;
+        if (!email.isEmpty()) customerNote += "\n" + getString(R.string.intake_note_email) + ": " + email;
         String deviceType = resolveDeviceType();
-        setSubmitting(true);
+        submission.error.setValue(null);
+        submission.pending = true;
+        showStep();
 
         repository.createTicketIntake(
                 name,
@@ -113,20 +194,7 @@ public class CreateTicketActivity extends AppCompatActivity {
                 initialCondition,
                 customerNote,
                 sessionManager.getUserId(),
-                new RepairTicketRepository.TicketCreateCallback() {
-                    @Override
-                    public void onSuccess(int ticketId, String ticketCode) {
-                        setSubmitting(false);
-                        showCreatedTicketDialog(ticketId, ticketCode);
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        setSubmitting(false);
-                        binding.cardCreateError.setVisibility(View.VISIBLE);
-                        binding.tvCreateError.setText(message);
-                    }
-                }
+                submission
         );
     }
 
@@ -160,12 +228,6 @@ public class CreateTicketActivity extends AppCompatActivity {
         if (binding.chipLaptop.isChecked()) return Constants.DEVICE_TYPE_LAPTOP;
         if (binding.chipTablet.isChecked()) return Constants.DEVICE_TYPE_TABLET;
         return Constants.DEVICE_TYPE_PHONE;
-    }
-
-    private void setSubmitting(boolean submitting) {
-        isSubmitting = submitting;
-        binding.btnSubmitTicket.setEnabled(!submitting);
-        binding.btnSubmitTicket.setText(submitting ? R.string.saving_data : R.string.create_ticket_action);
     }
 
     private String textOf(com.google.android.material.textfield.TextInputEditText edt) {
