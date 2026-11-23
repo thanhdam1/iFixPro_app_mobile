@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intake_title">iFixPro · Yêu cầu sửa chữa</string>
+    <string name="intake_device">Thiết bị</string>
+    <string name="intake_issue">Sự cố</string>
+    <string name="intake_visit">Lịch hẹn</string>
+    <string name="intake_contact">Liên hệ</string>
+    <string name="intake_visit_field">Thời gian mong muốn (tuỳ chọn)</string>
+    <string name="intake_email">Email (tuỳ chọn)</string>
+    <string name="intake_next">Tiếp tục</string>
+    <string name="intake_submit">Gửi yêu cầu</string>
+    <string name="intake_device_title">Thông tin thiết bị</string>
+    <string name="intake_issue_title">Tình trạng thiết bị</string>
+    <string name="intake_visit_title">Thời gian mong muốn</string>
+    <string name="intake_contact_title">Thông tin liên hệ</string>
+    <string name="intake_device_hint">Chọn loại máy và nhập thông tin nhận diện.</string>
+    <string name="intake_issue_hint">Ghi lại lỗi cần sửa và tình trạng khi tiếp nhận.</string>
+    <string name="intake_visit_hint">Ghi ngày và giờ khách mong muốn. Cửa hàng sẽ xác nhận sau.</string>
+    <string name="intake_contact_hint">Cửa hàng sẽ liên hệ để xác nhận yêu cầu.</string>
+    <string name="intake_invalid_email">Vui lòng kiểm tra địa chỉ email.</string>
+    <string name="intake_note_visit">Thời gian mong muốn</string>
+    <string name="intake_note_email">Email liên hệ</string>
+    <color name="intake_violet">#5938CA</color>
+    <color name="intake_lilac">#E6DFFF</color>
+</resources>
