@@ -2,20 +2,20 @@ package vhu.edu.vn.ui.receptionist;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.util.Patterns;
-import androidx.activity.OnBackPressedCallback;
-import androidx.lifecycle.ViewModelProvider;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import vhu.edu.vn.R;
 import vhu.edu.vn.data.repository.RepairTicketRepository;
@@ -56,10 +56,6 @@ public class CreateTicketActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         sessionManager = new SessionManager(this);
-        if (!sessionManager.isLoggedIn() || !sessionManager.isStaff()) {
-            finish();
-            return;
-        }
 
         repository = new RepairTicketRepository(this);
         setupClearErrorWatchers();
@@ -193,7 +189,7 @@ public class CreateTicketActivity extends AppCompatActivity {
                 screenPassword,
                 initialCondition,
                 customerNote,
-                sessionManager.getUserId(),
+                sessionManager.isLoggedIn() ? sessionManager.getUserId() : 1,
                 submission
         );
     }

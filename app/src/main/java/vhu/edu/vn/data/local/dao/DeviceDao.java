@@ -24,6 +24,9 @@ public interface DeviceDao {
     @Query("SELECT * FROM devices WHERE customerId = :customerId")
     LiveData<List<DeviceEntity>> getDevicesByCustomerId(int customerId);
 
+    @Query("SELECT * FROM devices WHERE id = :id LIMIT 1")
+    DeviceEntity getDeviceByIdSync(int id);
+
     @Query("SELECT * FROM devices WHERE imeiSerial = :imeiSerial LIMIT 1")
     DeviceEntity getDeviceByImei(String imeiSerial);
 }

@@ -34,7 +34,7 @@
 
         <activity
             android:name=".ui.receptionist.CreateTicketActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
@@ -55,6 +55,11 @@
         <activity
             android:name=".ui.customer.TicketTimelineActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.customer.QrCustomerIntakeActivity"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 
         <activity

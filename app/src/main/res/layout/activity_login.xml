@@ -188,6 +188,14 @@
                             android:layout_height="wrap_content"
                             android:text="@string/login_action" />
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnQrCustomerPortal"
+                            style="@style/Widget.iFixPro.Button.Outlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_md"
+                            android:text="📱 Khách hàng tiếp nhận qua Mã QR (Không đăng nhập)" />
+
                         <com.google.android.material.progressindicator.LinearProgressIndicator
                             android:id="@+id/progressBar"
                             android:layout_width="match_parent"

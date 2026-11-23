@@ -45,6 +45,11 @@ public class RepairTicketRepository {
         void onError(String message);
     }
 
+    public interface TicketDetailsCallback {
+        void onSuccess(TicketWithDetails ticketWithDetails);
+        void onError(String message);
+    }
+
     public RepairTicketRepository(Context context) {
         this(AppDatabase.getInstance(context), AppExecutors.getInstance());
     }
@@ -81,6 +86,29 @@ public class RepairTicketRepository {
 
     public TicketWithDetails getTicketByCodeSync(String ticketCode) {
         return ticketDao.getTicketWithDetailsByCodeSync(ticketCode);
+    }
+
+    public void findTicketByCodeAndLoadDetails(String inputCode, TicketDetailsCallback callback) {
+        executors.diskIO().execute(() -> {
+            try {
+                if (inputCode == null || inputCode.trim().isEmpty()) {
+                    throw new BusinessException("Vui lòng nhập hoặc quét mã phiếu QR.");
+                }
+                String cleanCode = inputCode.trim().replaceAll("^#", "");
+                TicketWithDetails result = ticketDao.getTicketWithDetailsByCodeSync(cleanCode);
+                if (result == null && !cleanCode.startsWith("FIX-")) {
+                    result = ticketDao.getTicketWithDetailsByCodeSync("FIX-" + cleanCode);
+                }
+                if (result == null || result.ticket == null) {
+                    throw new BusinessException("Không tìm thấy dữ liệu phiếu QR [" + inputCode + "].");
+                }
+                final TicketWithDetails finalResult = result;
+                executors.mainThread().execute(() -> callback.onSuccess(finalResult));
+            } catch (Exception e) {
+                String msg = toFriendlyMessage(e, "Không thể tìm kiếm phiếu QR");
+                executors.mainThread().execute(() -> callback.onError(msg));
+            }
+        });
     }
 
     /** Atomic intake: finds/creates customer, validates/reuses device by IMEI, creates ticket. */
@@ -403,6 +431,28 @@ public class RepairTicketRepository {
                 executors.mainThread().execute(callback::onSuccess);
             } catch (Exception e) {
                 String msg = toFriendlyMessage(e, "Không thể chuyển trạng thái phiếu");
+                executors.mainThread().execute(() -> callback.onError(msg));
+            }
+        });
+    }
+
+    public void updateDeviceEvidencePhotos(int ticketId, String newImagePath, ActionCallback callback) {
+        executors.diskIO().execute(() -> {
+            try {
+                database.runInTransaction(() -> {
+                    RepairTicketEntity ticket = ticketDao.getTicketByIdSync(ticketId);
+                    if (ticket == null) {
+                        throw new BusinessException("Không tìm thấy phiếu sửa chữa.");
+                    }
+                    DeviceEntity device = deviceDao.getDeviceByIdSync(ticket.getDeviceId());
+                    if (device != null) {
+                        device.setImagePath(newImagePath);
+                        deviceDao.updateDevice(device);
+                    }
+                });
+                executors.mainThread().execute(callback::onSuccess);
+            } catch (Exception e) {
+                String msg = toFriendlyMessage(e, "Không thể cập nhật ảnh minh chứng");
                 executors.mainThread().execute(() -> callback.onError(msg));
             }
         });

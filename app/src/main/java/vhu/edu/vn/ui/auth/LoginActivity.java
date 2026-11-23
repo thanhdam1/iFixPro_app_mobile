@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import vhu.edu.vn.MainActivity;
 import vhu.edu.vn.R;
 import vhu.edu.vn.databinding.ActivityLoginBinding;
+import vhu.edu.vn.ui.customer.QrCustomerIntakeActivity;
 import vhu.edu.vn.utils.SessionManager;
 import vhu.edu.vn.utils.UiFormatters;
 
@@ -55,6 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         binding.btnLogin.setOnClickListener(v -> submitLogin());
+        binding.btnQrCustomerPortal.setOnClickListener(v -> {
+            Intent intent = new Intent(this, QrCustomerIntakeActivity.class);
+            startActivity(intent);
+        });
         binding.edtPassword.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (binding.btnLogin.isEnabled()) submitLogin();

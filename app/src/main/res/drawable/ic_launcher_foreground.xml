@@ -3,6 +3,6 @@
     <item
         android:width="72dp"
         android:height="72dp"
-        android:drawable="@drawable/ifixpro_icon_fg_1794722786473"
+        android:drawable="@drawable/ic_ifixpro_mark"
         android:gravity="center" />
 </layer-list>

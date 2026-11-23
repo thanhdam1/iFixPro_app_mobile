@@ -1,301 +1,1187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/customerHomeLayout"
+    android:id="@+id/customerHomeRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fillViewport="true">
+    android:background="#F8FAFC">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/space_lg">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Greeting Banner -->
-        <TextView
-            android:id="@+id/tvCustomerGreeting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.iFixPro.ScreenTitle" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
-            android:text="@string/customer_subtitle"
-            android:textAppearance="@style/TextAppearance.iFixPro.BodySecondary" />
-
-        <!-- 3 KPI Cards -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_lg"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- TOP QUICK SEARCH BAR (ALWAYS VISIBLE AT TOP) -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_xs"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/surface">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/space_md">
-
-                    <TextView
-                        android:id="@+id/tvCustomerKpiActive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textAppearance="@style/TextAppearance.iFixPro.KpiValue"
-                        android:textColor="@color/primary" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/kpi_in_progress"
-                        android:textAppearance="@style/TextAppearance.iFixPro.Label" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/space_xs"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/warning_container"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/space_md">
-
-                    <TextView
-                        android:id="@+id/tvCustomerKpiApproval"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textAppearance="@style/TextAppearance.iFixPro.KpiValue"
-                        android:textColor="@color/on_warning_container" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/kpi_waiting_quote"
-                        android:textAppearance="@style/TextAppearance.iFixPro.Label"
-                        android:textColor="@color/on_warning_container" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_xs"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/success_container"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/space_md">
-
-                    <TextView
-                        android:id="@+id/tvCustomerKpiReady"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textAppearance="@style/TextAppearance.iFixPro.KpiValue"
-                        android:textColor="@color/on_success_container" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="@string/kpi_ready_pickup"
-                        android:textAppearance="@style/TextAppearance.iFixPro.Label"
-                        android:textColor="@color/on_success_container" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xl"
-            android:text="@string/my_repairs"
-            android:textAppearance="@style/TextAppearance.iFixPro.SectionTitle" />
-
-        <!-- Search -->
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.iFixPro.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_md"
-            android:hint="@string/search_tickets"
-            app:endIconMode="clear_text"
-            app:startIconDrawable="@drawable/ic_search">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtTicketSearch"
+                android:id="@+id/cardTopQuickSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#0284C7"
+                app:strokeWidth="1.5dp">
 
-        <!-- Filter Chips -->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_sm"
-            android:scrollbars="none">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipTicketFilters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleLine="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAll"
-                    style="@style/Widget.iFixPro.Chip.Filter"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/filter_all" />
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipActive"
-                    style="@style/Widget.iFixPro.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_active" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/plus_jakarta_sans"
+                        android:text="🔍 TRA CỨU HỒ SƠ PHIẾU QR"
+                        android:textColor="#0369A1"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipApproval"
-                    style="@style/Widget.iFixPro.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_approval" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipReady"
-                    style="@style/Widget.iFixPro.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_ready" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.iFixPro.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Nhập mã phiếu (VD: FIX-261123-2344)"
+                            app:endIconMode="clear_text">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipClosed"
-                    style="@style/Widget.iFixPro.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_closed" />
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtTopSearchCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionSearch"
+                                android:inputType="textCapCharacters"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnTopSearchGo"
+                            style="@style/Widget.Material3.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="52dp"
+                            android:layout_marginStart="6dp"
+                            android:backgroundTint="#0284C7"
+                            android:text="Tra cứu"
+                            android:textColor="@color/white"
+                            app:cornerRadius="12dp" />
 
-            <TextView
-                android:id="@+id/tvTicketCount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:accessibilityLiveRegion="polite"
-                android:textAppearance="@style/TextAppearance.iFixPro.Label" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnTopScanQr"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="52dp"
+                            android:layout_marginStart="6dp"
+                            android:backgroundTint="#E0F2FE"
+                            android:text="📷 Quét"
+                            android:textColor="#0369A1"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCustomerClearFilter"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/action_clear_filters"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/customerLoading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
-            android:indeterminate="true"
-            android:visibility="visible" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCustomerTickets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_sm"
-            android:nestedScrollingEnabled="false" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/emptyState"
-            style="@style/Widget.iFixPro.Card.Tinted"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_md"
-            android:visibility="gone">
-
+            <!-- SECTION 1: INTAKE FORM CONTAINER -->
             <LinearLayout
+                android:id="@+id/containerIntakeForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="vertical"
-                android:padding="@dimen/space_xl">
+                android:visibility="visible">
 
-                <ImageView
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_ticket"
-                    app:tint="@color/on_surface_variant" />
+                <!-- Badge Tag -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_badge_pill"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="6dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_qr_scan"
+                        app:tint="#0369A1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="@font/plus_jakarta_sans"
+                        android:text="TIẾP NHẬN CSKH QUÉT MÃ QR"
+                        android:textColor="#0369A1"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvEmptyTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_md"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/plus_jakarta_sans"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.iFixPro.CardTitle" />
+                    android:text="Tạo Phiếu Tiếp Nhận"
+                    android:textColor="#0F172A"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvEmptyDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_xs"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/be_vietnam_pro"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.iFixPro.BodySecondary" />
+                    android:text="Điền thông tin để nhận Mã QR theo dõi tiến độ &amp; bảo hành."
+                    android:textColor="#64748B"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="@color/surface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="#E2E8F0">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilCustomerName"
+                            style="@style/Widget.iFixPro.TextInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Họ và tên *">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtCustomerName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="VD: Lê Trần Tuấn Minh"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPersonName"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilCustomerPhone"
+                            style="@style/Widget.iFixPro.TextInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="Số điện thoại *">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtCustomerPhone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="0901234567"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilDeviceName"
+                            style="@style/Widget.iFixPro.TextInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="Thiết bị / Dịch vụ *">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtDeviceName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="VD: Laptop Dell XPS, MacBook M1, iPhone 14 Pro..."
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapWords"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.iFixPro.TextInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="Số Serial / Service Tag">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtImeiSerial"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="VD: C02X9082JG5H (Không bắt buộc)"
+                                android:imeOptions="actionNext"
+                                android:inputType="textNoSuggestions"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilFaultNote"
+                            style="@style/Widget.iFixPro.TextInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="Mô tả sự cố *">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtFaultNote"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mô tả tình trạng lỗi phần cứng hoặc sự cố phần mềm cần hỗ trợ..."
+                                android:inputType="textMultiLine"
+                                android:minLines="3" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Attach Photos Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/bg_step_card_inactive"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/be_vietnam_pro"
+                                android:text="📷 Ảnh hiện trạng (Tùy chọn)"
+                                android:textColor="#334155"
+                                android:textSize="13sp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnSelectPhoto"
+                                style="@style/Widget.Material3.Button.TonalButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#0369A1"
+                                android:text="+ Chọn ảnh"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Error Message Card -->
+                        <TextView
+                            android:id="@+id/tvFormError"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/error"
+                            android:textSize="13sp"
+                            android:visibility="gone" />
+
+                        <!-- Submit CTA Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSubmitQrTicket"
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            android:layout_marginTop="20dp"
+                            android:backgroundTint="#0284C7"
+                            android:fontFamily="@font/plus_jakarta_sans"
+                            android:text="Tạo Phiếu &amp; Nhận Mã QR ➔"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- SECTION 2: TICKET CREATED & QR CODE DISPLAY -->
+            <LinearLayout
+                android:id="@+id/containerTicketResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Action Bar above Ticket Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNewSearch"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#0284C7"
+                        android:text="🔍 Tra mã khác"
+                        android:textColor="@color/white" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPrintTicket"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:strokeColor="#CBD5E1"
+                        android:text="🖨️ In phiếu"
+                        android:textColor="#334155" />
+                </LinearLayout>
+
+                <!-- Blue Ticket Card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_blue_ticket_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Status Pill -->
+                    <TextView
+                        android:id="@+id/tvTicketStatusHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_pill"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:text="● Đang chờ tiếp nhận kiểm tra"
+                        android:textColor="#0284C7"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDeviceTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/plus_jakarta_sans"
+                        android:text="Dell Latitude"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvTicketCodeBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#0284C7"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:text="#RP-447215"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCopyCode"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="📋 Sao chép"
+                            android:textColor="#E0F2FE"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- 2x2 Info Grid -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1"
+                            android:background="#075985"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="KHÁCH HÀNG"
+                                android:textColor="#93C5FD"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvResultCustomerName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Trần Thanh Đảm"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:background="#075985"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SỐ ĐIỆN THOẠI"
+                                android:textColor="#93C5FD"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvResultPhone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="0786505304"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- QR Code Card Box -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+
+                            <ImageView
+                                android:id="@+id/imgResultQrCode"
+                                android:layout_width="180dp"
+                                android:layout_height="180dp"
+                                android:contentDescription="Mã QR Hồ sơ" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="MÃ QR HỒ SƠ"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Xuất trình tại quầy iFixPro khi giao nhận máy"
+                                android:textColor="#64748B"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnEmptyReset"
-                    style="@style/Widget.iFixPro.Button.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_lg"
-                    android:text="@string/action_clear_filters"
-                    android:visibility="gone" />
+                    android:id="@+id/btnViewProgressNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#0284C7"
+                    android:fontFamily="@font/plus_jakarta_sans"
+                    android:text="Xem Tiến Độ &amp; Nhật Ký ➔"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+
+            <!-- SECTION 3: TRACKING & TIMELINE CONTAINER WITH 3 TABS -->
+            <LinearLayout
+                android:id="@+id/containerTracking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- 3 Top Navigation Tabs -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/tabProgress"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#0284C7"
+                        android:text="🧭 Tiến độ"
+                        android:textColor="@color/white" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/tabPayment"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="2dp"
+                        android:layout_weight="1"
+                        android:strokeColor="#CBD5E1"
+                        android:text="💳 Thanh toán"
+                        android:textColor="#475569" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/tabWarranty"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:strokeColor="#CBD5E1"
+                        android:text="🛡️ Bảo hành"
+                        android:textColor="#475569" />
+                </LinearLayout>
+
+                <!-- TAB 1 CONTENT: PROGRESS & TIMELINE -->
+                <LinearLayout
+                    android:id="@+id/viewTabProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <!-- 4 Step Process Grid Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/tvStepProgressTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="🌀 TIẾN TRÌNH XỬ LÝ HỒ SƠ (BƯỚC 1/4)"
+                                android:textColor="#0284C7"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <!-- 2x2 Grid Cards -->
+                            <GridLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:columnCount="2"
+                                android:rowCount="2">
+
+                                <!-- Step 1 Card -->
+                                <LinearLayout
+                                    android:id="@+id/stepCard1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_columnWeight="1"
+                                    android:layout_margin="4dp"
+                                    android:background="@drawable/bg_step_card_active"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="14dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgStep1Icon"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_device_phone"
+                                        app:tint="#D97706" />
+
+                                    <TextView
+                                        android:id="@+id/tvStep1Text"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center"
+                                        android:text="Tiếp nhận máy &amp; Yêu cầu"
+                                        android:textColor="#92400E"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <!-- Step 2 Card -->
+                                <LinearLayout
+                                    android:id="@+id/stepCard2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_columnWeight="1"
+                                    android:layout_margin="4dp"
+                                    android:background="@drawable/bg_step_card_inactive"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="14dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgStep2Icon"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_search"
+                                        app:tint="#94A3B8" />
+
+                                    <TextView
+                                        android:id="@+id/tvStep2Text"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center"
+                                        android:text="Kiểm tra &amp; Chẩn đoán"
+                                        android:textColor="#64748B"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <!-- Step 3 Card -->
+                                <LinearLayout
+                                    android:id="@+id/stepCard3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_columnWeight="1"
+                                    android:layout_margin="4dp"
+                                    android:background="@drawable/bg_step_card_inactive"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="14dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgStep3Icon"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_build"
+                                        app:tint="#94A3B8" />
+
+                                    <TextView
+                                        android:id="@+id/tvStep3Text"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center"
+                                        android:text="Đang sửa chữa &amp; Cài đặt"
+                                        android:textColor="#64748B"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <!-- Step 4 Card -->
+                                <LinearLayout
+                                    android:id="@+id/stepCard4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_columnWeight="1"
+                                    android:layout_margin="4dp"
+                                    android:background="@drawable/bg_step_card_inactive"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="14dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgStep4Icon"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:contentDescription="@null"
+                                        android:src="@drawable/ic_check_circle"
+                                        app:tint="#94A3B8" />
+
+                                    <TextView
+                                        android:id="@+id/tvStep4Text"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center"
+                                        android:text="Hoàn tất &amp; Bảo hành QR"
+                                        android:textColor="#64748B"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+                            </GridLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Initial Request Note Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="📋 Yêu Cầu Hỗ Trợ Ban Đầu"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvTrackingFaultNote"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="#F8FAFC"
+                                android:padding="12dp"
+                                android:text="Lỗi CPU &amp; sự cố cần hỗ trợ..."
+                                android:textColor="#334155"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Service Commitments Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="🛡️ Cam Kết Dịch Vụ iFixPro"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="#ECFDF5"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="✓ Minh bạch chi phí: Báo giá trước khi sửa, miễn phí kiểm tra."
+                                    android:textColor="#065F46"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="✓ Bảo mật dữ liệu: Giữ an toàn tuyệt đối dữ liệu cá nhân."
+                                    android:textColor="#065F46"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="✓ Bảo hành điện tử: Bảo hành mã QR từ 03 - 12 tháng."
+                                    android:textColor="#065F46"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Timeline Audit Log Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="🕒 Nhật Ký Xử Lý Hồ Sơ"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:background="#F0F9FF"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/plus_jakarta_sans"
+                                    android:text="ĐANG CHỜ TIẾP NHẬN KIỂM TRA MÁY TÍNH / THIẾT BỊ"
+                                    android:textColor="#0369A1"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvLogTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="22:09:36, 23/11/2026"
+                                    android:textColor="#64748B"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="Khách hàng vừa khởi tạo hồ sơ yêu cầu Chăm sóc khách hàng qua mã QR"
+                                    android:textColor="#334155"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- TAB 2 CONTENT: CASH PAYMENT AT COUNTER -->
+                <LinearLayout
+                    android:id="@+id/viewTabPayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="💵 THANH TOÁN TIỀN MẶT TẠI QUẦY TIẾP NHẬN"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:background="#F0F9FF"
+                                android:orientation="vertical"
+                                android:padding="14dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/plus_jakarta_sans"
+                                    android:text="Quy trình thanh toán tiền mặt tại quầy:"
+                                    android:textColor="#0369A1"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvCashStep1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="1. Quý khách xuất trình Mã phiếu QR cho nhân viên Lễ tân tại quầy."
+                                    android:textColor="#334155"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvCashStep2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="2. Thanh toán số tiền (Miễn phí kiểm tra / Số tiền sửa chữa) trực tiếp bằng tiền mặt."
+                                    android:textColor="#334155"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:text="3. Lễ tân xác nhận thu tiền trên hệ thống, in biên nhận và kích hoạt Sổ bảo hành điện tử (e-Warranty)."
+                                    android:textColor="#334155"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:fontFamily="@font/plus_jakarta_sans"
+                                    android:text="📍 Địa chỉ quầy: 615 Âu Cơ, P. Phú Trung, Q. Tân Phú, TP.HCM"
+                                    android:textColor="#0284C7"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnPrintPaymentInvoice"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginTop="16dp"
+                                android:backgroundTint="#0284C7"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="🖨️ In Phiếu Thanh Toán / Biên Nhận"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="12dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- TAB 3 CONTENT: E-WARRANTY & EVIDENCE PHOTOS -->
+                <LinearLayout
+                    android:id="@+id/viewTabWarranty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <!-- e-Warranty Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="🛡️ SỔ BẢO HÀNH ĐIỆN TỬ (e-Warranty)"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="#ECFDF5"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="✓ Thời hạn bảo hành: 03 - 06 tháng qua Mã QR"
+                                    android:textColor="#065F46"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="Sổ bảo hành điện tử sẽ được kích hoạt tự động sau khi lễ tân xác nhận thu tiền tại quầy."
+                                    android:textColor="#047857"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Evidence Photos Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/tvEvidencePhotoTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="📷 Hình Ảnh Minh Chứng Lúc Tiếp Nhận (0 ảnh)"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:background="#F8FAFC"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="20dp">
+
+                                <ImageView
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_device_phone"
+                                    app:tint="#94A3B8" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="Chưa có ảnh chụp minh chứng lúc tiếp nhận"
+                                    android:textColor="#64748B"
+                                    android:textSize="12sp" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnAddEvidencePhoto"
+                                    style="@style/Widget.Material3.Button.TonalButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:backgroundTint="#0284C7"
+                                    android:text="+ Chụp / Chọn ảnh minh chứng"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Footer Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/plus_jakarta_sans"
+                        android:text="iFixPro - HỆ THỐNG SỬA CHỮA &amp; BẢO HÀNH ĐIỆN TỬ"
+                        android:textColor="#475569"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Địa chỉ: 615 Âu Cơ, Phường Phú Trung, Quận Tân Phú, TP.HCM"
+                        android:textColor="#94A3B8"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Hotline: (028) 3860 4999 · Email: support@ifixpro.vn"
+                        android:textColor="#94A3B8"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating Hotline Call Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabHotline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Gọi tổng đài"
+        android:src="@drawable/ic_device_phone"
+        app:backgroundTint="#0284C7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

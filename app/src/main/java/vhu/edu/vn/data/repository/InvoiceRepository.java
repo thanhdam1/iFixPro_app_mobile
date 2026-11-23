@@ -134,4 +134,9 @@ public class InvoiceRepository {
             }
         });
     }
+
+    public void issueCashInvoiceAtCounter(int ticketId, int receptionistId, InvoiceCreateCallback callback) {
+        int staffId = receptionistId > 0 ? receptionistId : 1;
+        issueInvoiceAndDeliver(ticketId, staffId, 0.0, Constants.PAYMENT_CASH, callback);
+    }
 }
