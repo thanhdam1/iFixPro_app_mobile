@@ -19,7 +19,7 @@
             android:text="@string/manager_dashboard_title"
             android:textAppearance="@style/TextAppearance.iFixPro.ScreenTitle" />
 
-        <!-- Financial Summary Hero Card: Revenue, Cost & Net Profit -->
+        <!-- Icon-First Financial Summary Hero Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,21 +32,22 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_hero_navy"
                 android:orientation="vertical"
-                android:padding="@dimen/space_xl">
+                android:padding="@dimen/space_lg">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="💰 THỐNG KÊ DOANH THU &amp; LỢI NHUẬN THUẦN"
+                    android:fontFamily="@font/plus_jakarta_sans"
+                    android:text="💵 TÀI CHÍNH XƯỞNG SỬA CHỮA"
                     android:textColor="#93C5FD"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <!-- Total Revenue Row -->
+                <!-- Revenue Row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -54,7 +55,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tổng doanh thu:"
+                        android:fontFamily="@font/be_vietnam_pro"
+                        android:text="📊 Doanh thu"
                         android:textColor="#E0F2FE"
                         android:textSize="14sp" />
 
@@ -65,7 +67,7 @@
                         android:fontFamily="@font/plus_jakarta_sans"
                         android:text="0 ₫"
                         android:textColor="@color/white"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -81,7 +83,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Giá vốn linh kiện đã dùng:"
+                        android:fontFamily="@font/be_vietnam_pro"
+                        android:text="📦 Giá vốn linh kiện"
                         android:textColor="#CBD5E1"
                         android:textSize="13sp" />
 
@@ -101,7 +104,7 @@
                     android:layout_marginVertical="10dp"
                     android:background="#334155" />
 
-                <!-- Estimated Net Profit Row -->
+                <!-- Net Profit Row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -113,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/plus_jakarta_sans"
-                        android:text="LỢI NHUẬN THUẦN ƯỚC TÍNH:"
+                        android:text="📈 LỢI NHUẬN THUẦN:"
                         android:textColor="#6EE7B7"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -172,7 +175,7 @@
                         android:id="@+id/tvMgrKpiTotalLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Đang xử lý / 0 phiếu"
+                        android:text="🔄 Đang xử lý"
                         android:textAppearance="@style/TextAppearance.iFixPro.Label" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -202,7 +205,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/kpi_waiting_quote"
+                        android:text="⏳ Chờ duyệt giá"
                         android:textAppearance="@style/TextAppearance.iFixPro.Label"
                         android:textColor="@color/on_warning_container" />
                 </LinearLayout>
@@ -241,7 +244,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/kpi_ready_delivery"
+                        android:text="✅ Sẵn sàng bàn giao"
                         android:textAppearance="@style/TextAppearance.iFixPro.Label"
                         android:textColor="@color/on_success_container" />
                 </LinearLayout>
@@ -275,7 +278,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Linh kiện sắp hết"
+                        android:text="⚠️ Linh kiện sắp hết"
                         android:textAppearance="@style/TextAppearance.iFixPro.Label"
                         android:textColor="@color/on_error_container" />
                 </LinearLayout>
@@ -311,7 +314,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/plus_jakarta_sans"
-                        android:text="⚠️ CẢNH BÁO LINH KIỆN SẮP HẾT KHO"
+                        android:text="⚠️ LINH KIỆN SẮP HẾT KHO"
                         android:textColor="#DC2626"
                         android:textSize="13sp"
                         android:textStyle="bold" />
@@ -379,15 +382,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Giá trị hóa đơn theo ngày"
+                    android:text="Doanh thu theo ngày"
                     android:textAppearance="@style/TextAppearance.iFixPro.CardTitle" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Bộ lọc 7/30 ngày chỉ áp dụng cho biểu đồ hóa đơn này."
-                    android:textAppearance="@style/TextAppearance.iFixPro.Label" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipReportPeriod"
@@ -429,7 +425,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Pie Chart & Textual Status Breakdown Card -->
+        <!-- Pie Chart Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -445,7 +441,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Phân bố trạng thái (toàn bộ phiếu)"
+                    android:text="Phân bố trạng thái phiếu"
                     android:textAppearance="@style/TextAppearance.iFixPro.CardTitle" />
 
                 <TextView
@@ -462,7 +458,6 @@
                     android:layout_height="220dp"
                     android:layout_marginTop="@dimen/space_md" />
 
-                <!-- Textual Breakdown List (accessible companion to chart) -->
                 <TextView
                     android:id="@+id/tvStatusTextBreakdown"
                     android:layout_width="match_parent"
