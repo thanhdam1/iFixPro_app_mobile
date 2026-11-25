@@ -39,7 +39,7 @@
 
         <activity
             android:name=".ui.receptionist.PrintInvoiceActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 
         <activity

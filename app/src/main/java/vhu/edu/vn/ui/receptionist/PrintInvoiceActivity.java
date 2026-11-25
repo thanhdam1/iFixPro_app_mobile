@@ -1,12 +1,18 @@
 package vhu.edu.vn.ui.receptionist;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
@@ -41,6 +47,7 @@ public class PrintInvoiceActivity extends AppCompatActivity {
     private TicketWithDetails currentTicket;
     private double currentSubTotal;
     private boolean actionPending;
+    private boolean isStaff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +65,7 @@ public class PrintInvoiceActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(v -> finish());
 
         sessionManager = new SessionManager(this);
-        if (!sessionManager.isLoggedIn() || !sessionManager.isStaff()) {
-            finish();
-            return;
-        }
+        isStaff = sessionManager.isLoggedIn() && sessionManager.isStaff();
 
         ticketId = getIntent().getIntExtra("ticket_id", -1);
         if (ticketId <= 0) {
@@ -83,6 +87,7 @@ public class PrintInvoiceActivity extends AppCompatActivity {
 
         binding.btnPrintInvoice.setOnClickListener(v -> confirmAndIssueInvoice());
         binding.btnCancelTicket.setOnClickListener(v -> confirmAndCancelTicket());
+        binding.btnPrintPdfDocument.setOnClickListener(v -> printInvoicePdfDocument());
 
         ticketRepository.getTicketById(ticketId).observe(this, item -> {
             if (item == null || item.ticket == null) {
@@ -166,13 +171,13 @@ public class PrintInvoiceActivity extends AppCompatActivity {
         binding.tvPartsSubtotal.setText(UiFormatters.formatCurrency(partsTotal));
         binding.tvLaborSubtotal.setText(UiFormatters.formatCurrency(laborFee));
 
-        boolean canBill = Constants.TICKET_COMPLETED.equals(status) && item.invoice == null;
+        boolean canBill = isStaff && Constants.TICKET_COMPLETED.equals(status) && item.invoice == null;
         boolean hasInvoice = item.invoice != null;
-        boolean canCancel = Constants.TICKET_RECEIVED.equals(status)
+        boolean canCancel = isStaff && (Constants.TICKET_RECEIVED.equals(status)
                 || Constants.TICKET_DIAGNOSING.equals(status)
                 || Constants.TICKET_WAITING_APPROVAL.equals(status)
                 || Constants.TICKET_APPROVED.equals(status)
-                || Constants.TICKET_REPAIRING.equals(status);
+                || Constants.TICKET_REPAIRING.equals(status));
 
         binding.cardBillingControls.setVisibility(canBill ? View.VISIBLE : View.GONE);
         binding.btnCancelTicket.setVisibility(canCancel ? View.VISIBLE : View.GONE);
@@ -203,6 +208,61 @@ public class PrintInvoiceActivity extends AppCompatActivity {
         }
 
         updateButtonsEnabled();
+    }
+
+    private void printInvoicePdfDocument() {
+        if (currentTicket == null || currentTicket.ticket == null) {
+            Snackbar.make(binding.printInvoiceLayout, "Không tìm thấy dữ liệu phiếu để in.", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+        String ticketCode = currentTicket.ticket.getTicketCode();
+        String customerName = currentTicket.customer != null ? currentTicket.customer.getFullName() : "Khách hàng";
+        String customerPhone = currentTicket.customer != null ? currentTicket.customer.getPhone() : "";
+        String deviceName = currentTicket.device != null ? currentTicket.device.getBrandModel() : "Thiết bị";
+        String faultNote = currentTicket.ticket.getCustomerNote() != null ? currentTicket.ticket.getCustomerNote() : "";
+
+        String htmlContent = "<html><head><style>"
+                + "body { font-family: sans-serif; padding: 20px; color: #0F172A; }"
+                + ".header { text-align: center; border-bottom: 2px solid #0284C7; padding-bottom: 10px; }"
+                + ".title { font-size: 20px; font-weight: bold; color: #0284C7; }"
+                + ".subtitle { font-size: 12px; color: #64748B; }"
+                + ".ticket-box { background-color: #F0F9FF; border: 1px solid #BAE6FD; padding: 12px; border-radius: 8px; margin-top: 15px; }"
+                + ".code { font-size: 18px; font-weight: bold; color: #0369A1; }"
+                + ".section-title { font-size: 14px; font-weight: bold; margin-top: 15px; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px; }"
+                + ".info-row { font-size: 13px; margin-top: 6px; }"
+                + ".footer { margin-top: 30px; text-align: center; font-size: 11px; color: #94A3B8; }"
+                + "</style></head><body>"
+                + "<div class='header'>"
+                + "<div class='title'>iFixPro - BẢO HÀNH & SỬA CHỮA ĐIỆN TỬ</div>"
+                + "<div class='subtitle'>Địa chỉ: 615 Âu Cơ, P. Phú Trung, Q. Tân Phú, TP.HCM | Hotline: (028) 3860 4999</div>"
+                + "</div>"
+                + "<div class='ticket-box'>"
+                + "<div>PHIẾU TỔNG HỢP & BIÊN NHẬN</div>"
+                + "<div class='code'>#" + ticketCode + "</div>"
+                + "</div>"
+                + "<div class='section-title'>THÔNG TIN KHÁCH HÀNG & THIẾT BỊ</div>"
+                + "<div class='info-row'><b>Khách hàng:</b> " + customerName + " (" + customerPhone + ")</div>"
+                + "<div class='info-row'><b>Thiết bị:</b> " + deviceName + "</div>"
+                + "<div class='info-row'><b>Ghi chú sự cố:</b> " + faultNote + "</div>"
+                + "<div class='section-title'>TỔNG CHI PHÍ & BẢO HÀNH</div>"
+                + "<div class='info-row'><b>Tổng chi phí:</b> " + UiFormatters.formatCurrency(currentSubTotal) + "</div>"
+                + "<div class='info-row'><b>Sổ bảo hành:</b> e-Warranty bảo hành qua Mã QR</div>"
+                + "<div class='footer'>Cảm ơn quý khách đã tin tưởng dịch vụ iFixPro!</div>"
+                + "</body></html>";
+
+        WebView webView = new WebView(this);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                if (printManager != null) {
+                    PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter("Phieu_iFixPro_" + ticketCode);
+                    printManager.print("Biên_nhận_iFixPro_" + ticketCode, printAdapter, new PrintAttributes.Builder().build());
+                }
+            }
+        });
+        webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null);
     }
 
     private String resolveNonBillableNotice(String status) {

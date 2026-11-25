@@ -317,6 +317,15 @@
                     android:textAppearance="@style/TextAppearance.iFixPro.Body" />
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Export PDF / Thermal Print Action Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPrintPdfDocument"
+                style="@style/Widget.iFixPro.Button.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:text="🖨️ In Phiếu / Xuất Tệp PDF" />
+
             <!-- Cancel Ticket Action (only for active pre-completion tickets) -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancelTicket"
