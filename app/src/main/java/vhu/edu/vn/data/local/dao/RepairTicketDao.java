@@ -58,4 +58,7 @@ public interface RepairTicketDao {
 
     @Query("UPDATE repair_tickets SET technicianId = :technicianId, laborFee = :laborFee, totalCost = :totalCost, technicianNote = :technicianNote, status = :status, updatedAt = :updatedAt WHERE id = :ticketId")
     void updateDiagnosis(int ticketId, Integer technicianId, double laborFee, double totalCost, String technicianNote, String status, long updatedAt);
+
+    @Query("UPDATE repair_tickets SET rating = :rating, customerFeedback = :feedback, updatedAt = :updatedAt WHERE id = :ticketId")
+    void updateRatingAndFeedback(int ticketId, float rating, String feedback, long updatedAt);
 }

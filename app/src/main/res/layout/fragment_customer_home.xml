@@ -412,6 +412,16 @@
                             android:text="📋 Sao chép"
                             android:textColor="#E0F2FE"
                             android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnShareTicket"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="🔗 Chia sẻ"
+                            android:textColor="#E0F2FE"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <!-- 2x2 Info Grid -->
@@ -1129,6 +1139,71 @@
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Customer Rating 5-Star Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardCustomerRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="@color/surface"
+                        app:cardCornerRadius="16dp"
+                        app:strokeColor="#E2E8F0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="⭐ ĐÁNH GIÁ CHẤT LƯỢNG DỊCH VỤ CSKH"
+                                android:textColor="#0F172A"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <RatingBar
+                                android:id="@+id/ratingBarService"
+                                style="@style/Widget.AppCompat.RatingBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="12dp"
+                                android:numStars="5"
+                                android:rating="5"
+                                android:stepSize="1" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.iFixPro.TextInputLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:hint="Nhận xét / Ý kiến đóng góp">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edtCustomerFeedback"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Chia sẻ trải nghiệm của bạn về dịch vụ sửa chữa..."
+                                    android:inputType="textMultiLine"
+                                    android:minLines="2" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnSubmitRating"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="12dp"
+                                android:backgroundTint="#0284C7"
+                                android:fontFamily="@font/plus_jakarta_sans"
+                                android:text="⭐ Gửi Đánh Giá Dịch Vụ"
+                                android:textColor="@color/white"
+                                app:cornerRadius="10dp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>

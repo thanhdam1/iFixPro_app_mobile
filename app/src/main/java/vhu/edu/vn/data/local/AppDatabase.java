@@ -29,7 +29,7 @@ import vhu.edu.vn.utils.Constants;
         TicketPartDetailEntity.class,
         InvoiceEntity.class
     },
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -52,6 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase.class,
                             DATABASE_NAME
                     )
+                    .fallbackToDestructiveMigration()
                     .addCallback(new Callback() {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {

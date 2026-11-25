@@ -107,6 +107,39 @@ public class QrCustomerIntakeActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnShareTicket.setOnClickListener(v -> {
+            if (!currentTicketCode.isEmpty()) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Mã phiếu sửa chữa iFixPro #" + currentTicketCode);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Kính gửi quý khách, Mã phiếu QR sửa chữa & bảo hành iFixPro của bạn là #"
+                        + currentTicketCode + ".\nĐịa chỉ quầy tiếp nhận: 615 Âu Cơ, P. Phú Trung, Q. Tân Phú, TP.HCM.\nHotline: (028) 3860 4999.");
+                startActivity(Intent.createChooser(shareIntent, "Chia sẻ mã phiếu iFixPro qua"));
+            } else {
+                Toast.makeText(this, "Chưa có thông tin mã phiếu để chia sẻ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.btnSubmitRating.setOnClickListener(v -> {
+            if (currentTicketId > 0) {
+                float rating = binding.ratingBarService.getRating();
+                String feedback = binding.edtCustomerFeedback.getText() != null ? binding.edtCustomerFeedback.getText().toString().trim() : "";
+                repository.saveCustomerRatingAndFeedback(currentTicketId, rating, feedback, new RepairTicketRepository.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(QrCustomerIntakeActivity.this, "Cảm ơn bạn đã gửi đánh giá " + (int) rating + " sao cho iFixPro!", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(QrCustomerIntakeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Cảm ơn bạn đã gửi đánh giá dịch vụ iFixPro!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         binding.btnNewSearch.setOnClickListener(v -> showQuickSearchDialog());
 
         binding.btnPrintTicket.setOnClickListener(v -> {

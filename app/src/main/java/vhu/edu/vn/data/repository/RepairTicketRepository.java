@@ -140,8 +140,12 @@ public class RepairTicketRepository {
                     if (cleanPhone.isEmpty() || cleanBrand.isEmpty() || cleanImei.isEmpty()) {
                         throw new BusinessException("Vui lòng nhập đầy đủ Số điện thoại, Hãng/Model và IMEI/Serial.");
                     }
-                    if (receptionistId <= 0 || userDao.getUserByIdSync(receptionistId) == null) {
-                        throw new BusinessException("Phiên lễ tân không hợp lệ. Vui lòng đăng nhập lại.");
+                    int staffId = receptionistId;
+                    if (staffId <= 0 || userDao.getUserByIdSync(staffId) == null) {
+                        staffId = 2; // Default system receptionist
+                        if (userDao.getUserByIdSync(staffId) == null) {
+                            staffId = 1;
+                        }
                     }
 
                     long now = System.currentTimeMillis();
@@ -196,7 +200,7 @@ public class RepairTicketRepository {
                     RepairTicketEntity ticket = new RepairTicketEntity(
                             ticketCode,
                             deviceId,
-                            receptionistId,
+                            staffId,
                             null,
                             customerId,
                             Constants.TICKET_RECEIVED,
@@ -453,6 +457,25 @@ public class RepairTicketRepository {
                 executors.mainThread().execute(callback::onSuccess);
             } catch (Exception e) {
                 String msg = toFriendlyMessage(e, "Không thể cập nhật ảnh minh chứng");
+                executors.mainThread().execute(() -> callback.onError(msg));
+            }
+        });
+    }
+
+    public void saveCustomerRatingAndFeedback(int ticketId, float rating, String feedback, ActionCallback callback) {
+        executors.diskIO().execute(() -> {
+            try {
+                if (ticketId <= 0) {
+                    throw new BusinessException("Mã phiếu không hợp lệ.");
+                }
+                if (rating <= 0) {
+                    throw new BusinessException("Vui lòng chọn số sao đánh giá dịch vụ.");
+                }
+                long now = System.currentTimeMillis();
+                ticketDao.updateRatingAndFeedback(ticketId, rating, feedback != null ? feedback.trim() : "", now);
+                executors.mainThread().execute(callback::onSuccess);
+            } catch (Exception e) {
+                String msg = toFriendlyMessage(e, "Không thể gửi đánh giá dịch vụ");
                 executors.mainThread().execute(() -> callback.onError(msg));
             }
         });

@@ -34,6 +34,8 @@ public class RepairTicketEntity {
     private String technicianNote;
     private double laborFee;
     private double totalCost;
+    private float rating;
+    private String customerFeedback;
     private long createdAt;
     private long updatedAt;
 
@@ -74,6 +76,10 @@ public class RepairTicketEntity {
     public void setLaborFee(double laborFee) { this.laborFee = laborFee; }
     public double getTotalCost() { return totalCost; }
     public void setTotalCost(double totalCost) { this.totalCost = totalCost; }
+    public float getRating() { return rating; }
+    public void setRating(float rating) { this.rating = rating; }
+    public String getCustomerFeedback() { return customerFeedback; }
+    public void setCustomerFeedback(String customerFeedback) { this.customerFeedback = customerFeedback; }
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
     public long getUpdatedAt() { return updatedAt; }
