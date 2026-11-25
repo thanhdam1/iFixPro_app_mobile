@@ -1,10 +1,15 @@
 package vhu.edu.vn.ui.manager;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -18,12 +23,14 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import vhu.edu.vn.R;
 import vhu.edu.vn.data.local.AppDatabase;
+import vhu.edu.vn.data.local.entity.InventoryPartEntity;
 import vhu.edu.vn.data.local.model.InvoiceWithTicket;
 import vhu.edu.vn.data.local.model.TicketWithDetails;
 import vhu.edu.vn.databinding.FragmentManagerHomeBinding;
@@ -64,6 +71,12 @@ public class ManagerHomeFragment extends Fragment {
                 startActivity(new Intent(requireContext(), UserManagementActivity.class))
         );
 
+        binding.btnQuickRestockAll.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), InventoryManagementActivity.class);
+            intent.putExtra(InventoryManagementActivity.EXTRA_LOW_STOCK_ONLY, true);
+            startActivity(intent);
+        });
+
         binding.chipReportPeriod.setOnCheckedStateChangeListener((group, checkedIds) -> {
             selectedDays = binding.chipThirtyDays.isChecked() ? 30 : 7;
             renderBarChart();
@@ -84,7 +97,62 @@ public class ManagerHomeFragment extends Fragment {
             if (binding == null) return;
             int lowCount = parts != null ? parts.size() : 0;
             binding.tvMgrKpiLowStock.setText(String.valueOf(lowCount));
+
+            binding.containerLowStockParts.removeAllViews();
+            if (parts == null || parts.isEmpty()) {
+                binding.cardLowStockAlertBox.setVisibility(View.GONE);
+            } else {
+                binding.cardLowStockAlertBox.setVisibility(View.VISIBLE);
+                for (InventoryPartEntity part : parts) {
+                    addLowStockRow(part);
+                }
+            }
         });
+    }
+
+    private void addLowStockRow(InventoryPartEntity part) {
+        LinearLayout row = new LinearLayout(requireContext());
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        params.bottomMargin = dp(8);
+        row.setLayoutParams(params);
+        row.setBackgroundResource(R.drawable.bg_step_card_inactive);
+        row.setPadding(dp(12), dp(10), dp(12), dp(10));
+
+        LinearLayout infoBox = new LinearLayout(requireContext());
+        infoBox.setOrientation(LinearLayout.VERTICAL);
+        infoBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView tvName = new TextView(requireContext());
+        tvName.setText(part.getPartName());
+        tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        tvName.setTextColor(0xFF0F172A);
+        tvName.setTypeface(null, Typeface.BOLD);
+
+        TextView tvStock = new TextView(requireContext());
+        tvStock.setText("Mã: " + part.getPartCode() + " · Tồn kho: " + part.getQuantity() + " (Ngưỡng cảnh báo: < " + part.getMinThreshold() + ")");
+        tvStock.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        tvStock.setTextColor(0xFFDC2626);
+
+        infoBox.addView(tvName);
+        infoBox.addView(tvStock);
+
+        MaterialButton btnRestock = new MaterialButton(requireContext(), null, com.google.android.material.R.attr.borderlessButtonStyle);
+        btnRestock.setText("+ Nhập");
+        btnRestock.setTextColor(0xFF0284C7);
+        btnRestock.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        btnRestock.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), InventoryManagementActivity.class);
+            startActivity(intent);
+        });
+
+        row.addView(infoBox);
+        row.addView(btnRestock);
+        binding.containerLowStockParts.addView(row);
     }
 
     private void setupChartsAppearance() {
@@ -138,14 +206,20 @@ public class ManagerHomeFragment extends Fragment {
     private void renderInvoiceHero() {
         if (binding == null) return;
         double allTimeSum = 0.0;
+        double estimatedPartCost = 0.0;
         for (InvoiceWithTicket row : allInvoices) {
             if (row.invoice != null && Double.isFinite(row.invoice.getFinalTotal())) {
-                allTimeSum += row.invoice.getFinalTotal();
+                double total = row.invoice.getFinalTotal();
+                allTimeSum += total;
+                estimatedPartCost += total * 0.40; // Estimated 40% part import cost
             }
         }
+        double estimatedNetProfit = Math.max(0.0, allTimeSum - estimatedPartCost);
+
         binding.tvTotalRevenueValue.setText(UiFormatters.formatCurrency(allTimeSum));
-        binding.tvInvoiceCountAllTime.setText(allInvoices.size()
-                + " hóa đơn đã lập (không bao gồm dữ liệu giá vốn)");
+        binding.tvTotalPartCostValue.setText("-" + UiFormatters.formatCurrency(estimatedPartCost));
+        binding.tvEstimatedProfitValue.setText(UiFormatters.formatCurrency(estimatedNetProfit));
+        binding.tvInvoiceCountAllTime.setText(allInvoices.size() + " hóa đơn đã thanh toán thành công");
     }
 
     private void renderBarChart() {
@@ -282,6 +356,10 @@ public class ManagerHomeFragment extends Fragment {
         colors.add(ContextCompat.getColor(requireContext(), colorRes));
         if (breakdown.length() > 0) breakdown.append("\n");
         breakdown.append("• ").append(label).append(": ").append(count).append(" phiếu");
+    }
+
+    private int dp(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
     @Override
