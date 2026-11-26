@@ -124,6 +124,40 @@ public class CustomerHomeFragment extends Fragment {
             }
         });
 
+        binding.btnApproveQuote.setOnClickListener(v -> {
+            if (currentTicketId > 0) {
+                repository.approveTicketAndDeductStock(currentTicketId, new RepairTicketRepository.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(requireContext(), "✅ Đã duyệt báo giá! Kỹ thuật viên sẽ tiến hành sửa ngay.", Toast.LENGTH_LONG).show();
+                        binding.cardQuoteApprovalBox.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
+        binding.btnRejectQuote.setOnClickListener(v -> {
+            if (currentTicketId > 0) {
+                repository.cancelTicketAndRestock(currentTicketId, Constants.TICKET_REJECTED, new RepairTicketRepository.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(requireContext(), "❌ Đã từ chối báo giá. Lễ tân sẽ liên hệ bàn giao lại máy.", Toast.LENGTH_LONG).show();
+                        binding.cardQuoteApprovalBox.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
         binding.btnNewSearch.setOnClickListener(v -> showQuickSearchDialog());
 
         binding.btnPrintTicket.setOnClickListener(v -> {
@@ -341,6 +375,15 @@ public class CustomerHomeFragment extends Fragment {
                 String note = details.ticket.getCustomerNote() != null ? details.ticket.getCustomerNote() : "";
 
                 showResultView(custName, custPhone, devName, note, currentTicketCode);
+
+                if (Constants.TICKET_WAITING_APPROVAL.equals(details.ticket.getStatus())) {
+                    binding.cardQuoteApprovalBox.setVisibility(View.VISIBLE);
+                    binding.tvQuoteLaborFee.setText(vhu.edu.vn.utils.UiFormatters.formatCurrency(details.ticket.getLaborFee()));
+                    binding.tvQuoteTotalCost.setText(vhu.edu.vn.utils.UiFormatters.formatCurrency(details.ticket.getTotalCost() > 0 ? details.ticket.getTotalCost() : details.ticket.getLaborFee()));
+                } else {
+                    binding.cardQuoteApprovalBox.setVisibility(View.GONE);
+                }
+
                 Toast.makeText(requireContext(), "Đã tải xong hồ sơ phiếu #" + currentTicketCode, Toast.LENGTH_SHORT).show();
             }
 

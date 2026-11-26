@@ -140,6 +140,42 @@ public class QrCustomerIntakeActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnApproveQuote.setOnClickListener(v -> {
+            if (currentTicketId > 0) {
+                repository.approveTicketAndDeductStock(currentTicketId, new RepairTicketRepository.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(QrCustomerIntakeActivity.this, "✅ Đã duyệt báo giá! Kỹ thuật viên sẽ tiến hành sửa ngay.", Toast.LENGTH_LONG).show();
+                        binding.cardQuoteApprovalBox.setVisibility(View.GONE);
+                        updateStepProgressUI(Constants.TICKET_APPROVED);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(QrCustomerIntakeActivity.this, message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
+        binding.btnRejectQuote.setOnClickListener(v -> {
+            if (currentTicketId > 0) {
+                repository.cancelTicketAndRestock(currentTicketId, Constants.TICKET_REJECTED, new RepairTicketRepository.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(QrCustomerIntakeActivity.this, "❌ Đã từ chối báo giá. Lễ tân sẽ liên hệ bàn giao lại máy.", Toast.LENGTH_LONG).show();
+                        binding.cardQuoteApprovalBox.setVisibility(View.GONE);
+                        updateStepProgressUI(Constants.TICKET_REJECTED);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(QrCustomerIntakeActivity.this, message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
         binding.btnNewSearch.setOnClickListener(v -> showQuickSearchDialog());
 
         binding.btnPrintTicket.setOnClickListener(v -> {
@@ -440,6 +476,15 @@ public class QrCustomerIntakeActivity extends AppCompatActivity {
 
                 showResultView(custName, custPhone, devName, note, currentTicketCode);
                 updateStepProgressUI(details.ticket.getStatus());
+
+                if (Constants.TICKET_WAITING_APPROVAL.equals(details.ticket.getStatus())) {
+                    binding.cardQuoteApprovalBox.setVisibility(View.VISIBLE);
+                    binding.tvQuoteLaborFee.setText(vhu.edu.vn.utils.UiFormatters.formatCurrency(details.ticket.getLaborFee()));
+                    binding.tvQuoteTotalCost.setText(vhu.edu.vn.utils.UiFormatters.formatCurrency(details.ticket.getTotalCost() > 0 ? details.ticket.getTotalCost() : details.ticket.getLaborFee()));
+                } else {
+                    binding.cardQuoteApprovalBox.setVisibility(View.GONE);
+                }
+
                 Toast.makeText(QrCustomerIntakeActivity.this, "Đã tải xong hồ sơ phiếu #" + currentTicketCode, Toast.LENGTH_SHORT).show();
             }
 
